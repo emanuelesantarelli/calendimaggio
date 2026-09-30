@@ -48,7 +48,7 @@ class AssociatoController extends Controller
         return view('associati.edit', compact('associato'));
     }
     public function update(Request $request, $id)
-{
+    {
     $associato = Associato::findOrFail($id);
 
     $associato->update([
@@ -58,5 +58,13 @@ class AssociatoController extends Controller
     ]);
 
     return redirect('/associati');
-}
+    }
+    public function destroy($id)
+    {
+    $associato = Associato::findOrFail($id);
+
+    $associato->delete();
+
+    return redirect('/associati');
+    }
 }

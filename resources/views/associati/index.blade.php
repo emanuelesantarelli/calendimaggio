@@ -22,10 +22,26 @@
         <td>{{ $associato->nome }}</td>
         <td>{{ $associato->email }}</td>
         <td>
-            <a href="/associati/{{ $associato->associato_id }}/edit">
-                Modifica
-            </a>
-        </td>
+
+    <a href="/associati/{{ $associato->associato_id }}/edit">
+        Modifica
+    </a>
+
+    <form
+        action="/associati/{{ $associato->associato_id }}"
+        method="POST"
+        style="display:inline;">
+
+        @csrf
+        @method('DELETE')
+
+        <button type="submit">
+            Elimina
+        </button>
+
+    </form>
+
+</td>
     </tr>
     @endforeach
 </table>

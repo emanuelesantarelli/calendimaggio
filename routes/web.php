@@ -12,3 +12,4 @@ Route::get('/associati/create', [AssociatoController::class, 'create']);
 Route::post('/associati', [AssociatoController::class, 'store']);
 Route::get('/associati/{id}/edit', [AssociatoController::class, 'edit']);
 Route::put('/associati/{id}', [AssociatoController::class, 'update']);
+Route::delete('/associati/{id}', [AssociatoController::class, 'destroy']);
