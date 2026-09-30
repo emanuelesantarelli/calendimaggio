@@ -22,33 +22,29 @@ class AssociatoController extends Controller
     }
 
     public function store(Request $request)
-{
-    Associato::create([
-        'numero_associato' => rand(1000, 999999),
+    {
+        Associato::create([
+            'numero_associato' => rand(1000, 999999),
+            'nome' => $request->nome,
+            'cognome' => $request->cognome,
+            'sesso' => 'M',
+            'data_nascita' => '2000-01-01',
+            'comune_nascita' => 'Perugia',
+            'provincia_nascita' => 'PG',
+            'nazione_nascita' => 'Italia',
+            'codice_fiscale' => strtoupper(substr(md5(time()), 0, 16)),
+            'email' => $request->email,
+            'cellulare' => '0000000000',
+            'stato_associato' => 'ATTIVO'
+        ]);
 
-        'nome' => $request->nome,
+        return redirect('/associati');
+    }
 
-        'cognome' => $request->cognome,
+    public function edit($id)
+    {
+        $associato = Associato::findOrFail($id);
 
-        'sesso' => 'M',
-
-        'data_nascita' => '2000-01-01',
-
-        'comune_nascita' => 'Perugia',
-
-        'provincia_nascita' => 'PG',
-
-        'nazione_nascita' => 'Italia',
-
-        'codice_fiscale' => strtoupper(substr(md5(time()), 0, 16)),
-
-        'email' => $request->email,
-
-        'cellulare' => '0000000000',
-
-        'stato_associato' => 'ATTIVO'
-    ]);
-
-    return redirect('/associati');
-}
+        return view('associati.edit', compact('associato'));
+    }
 }
