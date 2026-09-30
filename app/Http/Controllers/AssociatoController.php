@@ -47,4 +47,16 @@ class AssociatoController extends Controller
 
         return view('associati.edit', compact('associato'));
     }
+    public function update(Request $request, $id)
+{
+    $associato = Associato::findOrFail($id);
+
+    $associato->update([
+        'nome' => $request->nome,
+        'cognome' => $request->cognome,
+        'email' => $request->email
+    ]);
+
+    return redirect('/associati');
+}
 }

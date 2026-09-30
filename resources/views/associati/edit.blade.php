@@ -1,23 +1,42 @@
 <h1>Modifica Associato</h1>
 
-<p>
-    ID: {{ $associato->associato_id }}
-</p>
+<form action="/associati/{{ $associato->associato_id }}" method="POST">
 
-<p>
-    Cognome: {{ $associato->cognome }}
-</p>
+    @csrf
+    @method('PUT')
 
-<p>
-    Nome: {{ $associato->nome }}
-</p>
+    <p>
+        Cognome<br>
+        <input
+            type="text"
+            name="cognome"
+            value="{{ $associato->cognome }}">
+    </p>
 
-<p>
-    Email: {{ $associato->email }}
-</p>
+    <p>
+        Nome<br>
+        <input
+            type="text"
+            name="nome"
+            value="{{ $associato->nome }}">
+    </p>
+
+    <p>
+        Email<br>
+        <input
+            type="email"
+            name="email"
+            value="{{ $associato->email }}">
+    </p>
+
+    <button type="submit">
+        Salva Modifiche
+    </button>
+
+</form>
 
 <p>
     <a href="/associati">
-    Torna alla lista
+        Torna alla lista
     </a>
 </p>
