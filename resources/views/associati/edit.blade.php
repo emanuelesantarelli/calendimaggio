@@ -17,7 +17,7 @@
 </p>
 
 <p>
-    /associati
-        Torna alla lista
+    <a href="/associati">
+    Torna alla lista
     </a>
 </p>
