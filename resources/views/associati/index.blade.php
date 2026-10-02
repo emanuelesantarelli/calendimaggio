@@ -21,16 +21,28 @@
         <td>{{ $associato->cognome }}</td>
         <td>{{ $associato->nome }}</td>
         <td>{{ $associato->email }}</td>
+<<<<<<< HEAD
         <td>
+=======
+       <td>
+>>>>>>> 07caf04 (CRUD associati completato e corretto)
 
     <a href="/associati/{{ $associato->associato_id }}/edit">
         Modifica
     </a>
 
+<<<<<<< HEAD
     <form
         action="/associati/{{ $associato->associato_id }}"
         method="POST"
         style="display:inline;">
+=======
+    |
+
+    <form action="/associati/{{ $associato->associato_id }}"
+           method="POST"
+           style="display:inline;">
+>>>>>>> 07caf04 (CRUD associati completato e corretto)
 
         @csrf
         @method('DELETE')
