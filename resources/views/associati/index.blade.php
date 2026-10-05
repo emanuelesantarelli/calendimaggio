@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <h1>Associati</h1>
 
 <p>
@@ -21,28 +25,20 @@
         <td>{{ $associato->cognome }}</td>
         <td>{{ $associato->nome }}</td>
         <td>{{ $associato->email }}</td>
-<<<<<<< HEAD
         <td>
-=======
        <td>
->>>>>>> 07caf04 (CRUD associati completato e corretto)
 
     <a href="/associati/{{ $associato->associato_id }}/edit">
         Modifica
     </a>
-
-<<<<<<< HEAD
     <form
         action="/associati/{{ $associato->associato_id }}"
         method="POST"
         style="display:inline;">
-=======
     |
-
     <form action="/associati/{{ $associato->associato_id }}"
            method="POST"
            style="display:inline;">
->>>>>>> 07caf04 (CRUD associati completato e corretto)
 
         @csrf
         @method('DELETE')
@@ -57,3 +53,4 @@
     </tr>
     @endforeach
 </table>
+@endsection

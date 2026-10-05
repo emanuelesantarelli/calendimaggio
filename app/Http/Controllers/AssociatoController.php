@@ -24,11 +24,7 @@ class AssociatoController extends Controller
     public function store(Request $request)
     {
         Associato::create([
-<<<<<<< HEAD
-            'numero_associato' => rand(1000, 999999),
-=======
             'numero_associato' => (Associato::max('numero_associato') ?? 0) + 1,
->>>>>>> 07caf04 (CRUD associati completato e corretto)
             'nome' => $request->nome,
             'cognome' => $request->cognome,
             'sesso' => 'M',
@@ -51,27 +47,6 @@ class AssociatoController extends Controller
 
         return view('associati.edit', compact('associato'));
     }
-<<<<<<< HEAD
-    public function update(Request $request, $id)
-    {
-    $associato = Associato::findOrFail($id);
-
-    $associato->update([
-        'nome' => $request->nome,
-        'cognome' => $request->cognome,
-        'email' => $request->email
-    ]);
-
-    return redirect('/associati');
-    }
-    public function destroy($id)
-    {
-    $associato = Associato::findOrFail($id);
-
-    $associato->delete();
-
-    return redirect('/associati');
-=======
 
     public function update(Request $request, $id)
     {
@@ -93,6 +68,5 @@ class AssociatoController extends Controller
         $associato->delete();
 
         return redirect('/associati');
->>>>>>> 07caf04 (CRUD associati completato e corretto)
     }
 }
