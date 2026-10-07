@@ -74,8 +74,55 @@
             flex: 1;
             padding: 25px;
         }
+        .btn-action {
+    display: inline-block;
+    padding: 6px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+}
 
-    </style>
+.btn-edit {
+    background-color: #C8A24A;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #b28f3d;
+}
+
+.btn-delete {
+    background-color: #B10000;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #7A0000;
+}
+.btn-action {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background-color: #C8A24A;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #B10000;
+    color: white;
+}
+ 
+ </style>
 
 </head>
 
@@ -83,15 +130,30 @@
 
     <div class="header">
 
-        <div class="header-title">
-            Magnifica Parte de Sotto
-        </div>
+    <div style="display:flex; align-items:center;">
 
-        <div class="header-subtitle">
-            Gestionale Calendimaggio di Assisi
+        <img
+            src="/images/stemma-parte-sotto.png"
+            alt="Stemma Parte de Sotto"
+            style="
+                height:70px;
+                margin-right:15px;">
+
+        <div>
+
+            <div class="header-title">
+                Magnifica Parte de Sotto
+            </div>
+
+            <div class="header-subtitle">
+                Gestionale Calendimaggio di Assisi
+            </div>
+
         </div>
 
     </div>
+
+</div>
 
     <div class="top-menu">
 
