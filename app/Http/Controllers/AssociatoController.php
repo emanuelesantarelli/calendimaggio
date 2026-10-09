@@ -22,24 +22,34 @@ class AssociatoController extends Controller
     }
 
     public function store(Request $request)
-    {
-        Associato::create([
-            'numero_associato' => (Associato::max('numero_associato') ?? 0) + 1,
-            'nome' => $request->nome,
-            'cognome' => $request->cognome,
-            'sesso' => 'M',
-            'data_nascita' => '2000-01-01',
-            'comune_nascita' => 'Perugia',
-            'provincia_nascita' => 'PG',
-            'nazione_nascita' => 'Italia',
-            'codice_fiscale' => strtoupper(substr(md5(time()), 0, 16)),
-            'email' => $request->email,
-            'cellulare' => '0000000000',
-            'stato_associato' => 'ATTIVO'
-        ]);
+{
+    Associato::create([
 
-        return redirect('/associati');
-    }
+        'numero_associato' => (Associato::max('numero_associato') ?? 0) + 1,
+
+        'nome' => $request->nome,
+        'cognome' => $request->cognome,
+
+        'sesso' => $request->sesso,
+
+        'data_nascita' => $request->data_nascita,
+
+        'comune_nascita' => $request->comune_nascita,
+        'provincia_nascita' => $request->provincia_nascita,
+        'nazione_nascita' => 'Italia',
+
+       'codice_fiscale' => $request->codice_fiscale,
+
+        'email' => $request->email,
+
+        'cellulare' => $request->cellulare,
+
+        'stato_associato' => $request->stato_associato
+
+    ]);
+
+    return redirect('/associati');
+}
 
     public function edit($id)
     {
@@ -53,10 +63,16 @@ class AssociatoController extends Controller
         $associato = Associato::findOrFail($id);
 
         $associato->update([
-            'nome' => $request->nome,
-            'cognome' => $request->cognome,
-            'email' => $request->email
-        ]);
+    'nome' => $request->nome,
+    'cognome' => $request->cognome,
+    'sesso' => $request->sesso,
+    'data_nascita' => $request->data_nascita,
+    'comune_nascita' => $request->comune_nascita,
+    'provincia_nascita' => $request->provincia_nascita,
+    'email' => $request->email,
+    'cellulare' => $request->cellulare,
+    'stato_associato' => $request->stato_associato
+]);
 
         return redirect('/associati');
     }

@@ -121,7 +121,24 @@
     background-color: #B10000;
     color: white;
 }
- 
+ table {
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    background-color: #7A0000;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f7f2e8;
+}
  </style>
 
 </head>

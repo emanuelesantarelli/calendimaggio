@@ -16,6 +16,8 @@
         <th>Cognome</th>
         <th>Nome</th>
         <th>Email</th>
+        <th>Cellulare</th>
+        <th>Stato</th>
         <th>Azioni</th>
     </tr>
 
@@ -30,6 +32,10 @@
     <td>{{ $associato->nome }}</td>
 
     <td>{{ $associato->email }}</td>
+
+    <td>{{ $associato->cellulare }}</td>
+    
+    <td>{{ $associato->stato_associato }}</td>
 
     <td>
 
