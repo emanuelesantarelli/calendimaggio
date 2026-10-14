@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssociatoController;
 use App\Http\Controllers\TipologiaAssociativaController;
+use App\Http\Controllers\TesseramentoController;
 
 Route::get('/', [DashboardController::class, 'index']);
 
@@ -45,4 +46,34 @@ Route::put(
 Route::delete(
     '/tipologie-associative/{id}',
     [TipologiaAssociativaController::class, 'destroy']
+);
+
+Route::get(
+    '/tesseramenti',
+    [TesseramentoController::class, 'index']
+);
+
+Route::get(
+    '/tesseramenti/create',
+    [TesseramentoController::class, 'create']
+);
+
+Route::post(
+    '/tesseramenti',
+    [TesseramentoController::class, 'store']
+);
+
+Route::get(
+    '/tesseramenti/{id}/edit',
+    [TesseramentoController::class, 'edit']
+);
+
+Route::put(
+    '/tesseramenti/{id}',
+    [TesseramentoController::class, 'update']
+);
+
+Route::delete(
+    '/tesseramenti/{id}',
+    [TesseramentoController::class, 'destroy']
 );
