@@ -8,6 +8,11 @@ use App\Http\Controllers\TesseramentoController;
 
 Route::get('/', [DashboardController::class, 'index']);
 
+Route::get(
+    '/associati/{id}',
+    [AssociatoController::class, 'show']
+);
+
 Route::get('/associati', [AssociatoController::class, 'index']);
 Route::get('/associati/create', [AssociatoController::class, 'create']);
 Route::post('/associati', [AssociatoController::class, 'store']);

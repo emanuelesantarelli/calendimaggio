@@ -45,8 +45,25 @@ class TesseramentoController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        $esistente = Tesseramento::where(
+            'associato_id',
+            $request->associato_id
+        )
+        ->where(
+            'anno',
+            $request->anno
+        )
+        ->exists();
 
+        if ($esistente) {
+            return back()
+                ->withInput()
+                ->with(
+                    'errore',
+                    'Esiste già un tesseramento per questo associato nell\'anno selezionato.'
+                );
+    }
+                
         Tesseramento::create([
 
             'associato_id' => $request->associato_id,

@@ -20,8 +20,16 @@ class Associato extends Model
     'provincia_nascita',
     'nazione_nascita',
     'codice_fiscale',
+    'indirizzo_residenza',
+    'cap_residenza',
+    'comune_residenza',
+    'provincia_residenza',
+    'nazione_residenza',
     'email',
     'cellulare',
-    'stato_associato'
+    'stato_associato',
+    'nome_tutore',
+    'cognome_tutore',
+    'cellulare_tutore',
 ];
 }

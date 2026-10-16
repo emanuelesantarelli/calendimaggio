@@ -4,6 +4,22 @@
 
 <h1>Rinnovo Tesseramento</h1>
 
+@if(session('errore'))
+
+    <div
+        style="
+        background:#f8d7da;
+        color:#842029;
+        padding:10px;
+        border-radius:5px;
+        margin-bottom:20px;">
+
+        {{ session('errore') }}
+
+    </div>
+
+@endif
+
 <form action="/tesseramenti"
        method="POST">
 

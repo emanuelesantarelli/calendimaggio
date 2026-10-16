@@ -38,7 +38,12 @@
     <td>{{ $associato->stato_associato }}</td>
 
     <td>
+    <a href="/associati/{{ $associato->associato_id }}"
+    class="btn-action">
 
+    🔍 Dettaglio
+
+    </a>
     <a
         href="/associati/{{ $associato->associato_id }}/edit"
         class="btn-action btn-edit">

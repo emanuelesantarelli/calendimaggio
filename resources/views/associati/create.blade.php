@@ -70,6 +70,38 @@
     </p>
     <p>
 
+        Indirizzo Residenza<br>
+        <input type="text" name="indirizzo_residenza">
+    </p>
+
+    <p>
+    
+    CAP Residenza<br>
+    <input type="text" name="cap_residenza">
+    
+    </p>
+    <p>
+    
+    Comune Residenza<br>
+    <input type="text" name="comune_residenza">
+
+    </p>
+    <p>
+    
+    Provincia Residenza<br>
+    <input type="text" name="provincia_residenza">
+    
+    </p>
+    <p>
+    
+    Nazione Residenza<br>
+    <input type="text"
+           name="nazione_residenza"
+           value="Italia">
+
+    </p>
+    <p>
+
     Cellulare<br>
 
     <input
@@ -101,6 +133,23 @@
 
     </select>
 
+    </p>
+    <p>
+
+    Nome Tutore<br>
+    <input type="text" name="nome_tutore">
+    </p>
+    <p>
+    
+    Cognome Tutore<br>
+    <input type="text" name="cognome_tutore">
+    
+    </p>
+    <p>
+    
+    Cellulare Tutore<br>
+    <input type="text" name="cellulare_tutore">
+    
     </p>
 
    <button

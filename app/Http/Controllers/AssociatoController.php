@@ -38,13 +38,23 @@ class AssociatoController extends Controller
         'provincia_nascita' => $request->provincia_nascita,
         'nazione_nascita' => 'Italia',
 
-       'codice_fiscale' => $request->codice_fiscale,
+        'codice_fiscale' => $request->codice_fiscale,
+
+        'indirizzo_residenza' => $request->indirizzo_residenza,
+        'cap_residenza' => $request->cap_residenza,
+        'comune_residenza' => $request->comune_residenza,
+        'provincia_residenza' => $request->provincia_residenza,
+        'nazione_residenza' => $request->nazione_residenza,
 
         'email' => $request->email,
 
         'cellulare' => $request->cellulare,
 
-        'stato_associato' => $request->stato_associato
+        'stato_associato' => $request->stato_associato,
+
+        'nome_tutore' => $request->nome_tutore,
+        'cognome_tutore' => $request->cognome_tutore,
+        'cellulare_tutore' => $request->cellulare_tutore,
 
     ]);
 
@@ -69,9 +79,17 @@ class AssociatoController extends Controller
     'data_nascita' => $request->data_nascita,
     'comune_nascita' => $request->comune_nascita,
     'provincia_nascita' => $request->provincia_nascita,
+    'indirizzo_residenza' => $request->indirizzo_residenza,
+    'cap_residenza' => $request->cap_residenza,
+    'comune_residenza' => $request->comune_residenza,
+    'provincia_residenza' => $request->provincia_residenza,
+    'nazione_residenza' => $request->nazione_residenza,
     'email' => $request->email,
     'cellulare' => $request->cellulare,
-    'stato_associato' => $request->stato_associato
+    'stato_associato' => $request->stato_associato,
+    'nome_tutore' => $request->nome_tutore,
+    'cognome_tutore' => $request->cognome_tutore,
+    'cellulare_tutore' => $request->cellulare_tutore,
 ]);
 
         return redirect('/associati');
@@ -85,4 +103,14 @@ class AssociatoController extends Controller
 
         return redirect('/associati');
     }
+
+public function show($id)
+{
+    $associato = Associato::findOrFail($id);
+
+    return view(
+        'associati.show',
+        compact('associato')
+    );
+}
 }

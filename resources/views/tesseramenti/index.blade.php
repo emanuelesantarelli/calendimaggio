@@ -29,7 +29,13 @@
             Quota
         </th>
 
+        <th>Metodo</th>
+
+        <th>Data Pagamento</th>
+
         <th>Scadenza</th>
+
+        <th>Stato</th>
 
         <th>Azioni</th>
 
@@ -55,12 +61,31 @@
         <td style="text-align:right;">
 
             {{ number_format($tesseramento->importo_quota, 2, ',', '.') }} €
-
+        </td>
+        
+        <td>
+            {{ $tesseramento->metodo_pagamento }}
         </td>
 
         <td>
+            {{ date('d/m/Y', strtotime($tesseramento->data_pagamento)) }}
+        </td>
 
+        <td>
             {{ date('d/m/Y', strtotime($tesseramento->data_scadenza)) }}
+        </td>
+
+        <td style="text-align:center;">
+
+        @if(strtotime($tesseramento->data_scadenza) >= strtotime(date('Y-m-d')))
+
+            ✅ Attivo
+
+        @else
+
+            ❌ Scaduto
+
+        @endif
 
         </td>
 
