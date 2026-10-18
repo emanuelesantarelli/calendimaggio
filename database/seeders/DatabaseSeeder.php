@@ -2,24 +2,64 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class ComuniSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $file = storage_path('import/ANPR_archivio_comuni.csv');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if (!file_exists($file)) {
+            throw new \Exception(
+                "File ANPR_archivio_comuni.csv non trovato."
+            );
+        }
+
+        $handle = fopen($file, 'r');
+
+        // intestazione
+        $header = fgetcsv($handle);
+
+        while (($row = fgetcsv($handle)) !== false) {
+
+            $record = array_combine($header, $row);
+
+            // Importa solo comuni attivi
+            if (($record['STATO'] ?? '') !== 'A') {
+                continue;
+            }
+
+            DB::table('comuni')->insert([
+
+                'nome_comune' =>
+                    trim($record['DENOMINAZIONE_IT']),
+
+                'provincia' =>
+                    trim($record['SIGLAPROVINCIA']),
+
+                'codice_catastale' =>
+                    trim($record['CODCATASTALE']),
+
+                'nazione' =>
+                    'Italia',
+
+                'attivo' =>
+                    true,
+
+                'created_at' =>
+                    now(),
+
+                'updated_at' =>
+                    now(),
+
+            ]);
+        }
+            $this->call([
+            ComuniSeeder::class,
+            ]);
+
+        fclose($handle);
     }
 }
