@@ -5,13 +5,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssociatoController;
 use App\Http\Controllers\TipologiaAssociativaController;
 use App\Http\Controllers\TesseramentoController;
+use App\Models\Comune;
+use App\Services\CodiceFiscaleService;
 
 Route::get('/', [DashboardController::class, 'index']);
-
-Route::get(
-    '/associati/{id}',
-    [AssociatoController::class, 'show']
-);
 
 Route::get('/associati', [AssociatoController::class, 'index']);
 Route::get('/associati/create', [AssociatoController::class, 'create']);
@@ -22,6 +19,11 @@ Route::get('/associati/{id}/edit', [AssociatoController::class, 'edit']);
 Route::put('/associati/{id}', [AssociatoController::class, 'update']);
 
 Route::delete('/associati/{id}', [AssociatoController::class, 'destroy']);
+
+Route::get(
+    '/associati/{id}',
+    [AssociatoController::class, 'show']
+);
 
 Route::get(
     '/tipologie-associative',
@@ -82,3 +84,29 @@ Route::delete(
     '/tesseramenti/{id}',
     [TesseramentoController::class, 'destroy']
 );
+Route::get('/api/comuni/{nome}', function ($nome) {
+
+    return Comune::whereRaw(
+        'UPPER(nome_comune) = ?',
+        [strtoupper($nome)]
+    )->first();
+
+});
+Route::get('/api/codice-fiscale', function () {
+
+    return response()->json([
+
+        'codice_fiscale' =>
+            CodiceFiscaleService::genera(
+
+                request('cognome'),
+                request('nome'),
+                request('sesso'),
+                request('data_nascita'),
+                request('codice_catastale')
+
+            )
+
+    ]);
+
+});

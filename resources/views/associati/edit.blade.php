@@ -63,20 +63,45 @@
         Comune Nascita<br>
 
         <input
-            type="text"
-            name="comune_nascita"
-            value="{{ $associato->comune_nascita }}">
+    list="listaComuniNascita"
+    id="comune_nascita"
+    name="comune_nascita"
+    value="{{ $associato->comune_nascita }}">
+
+    <datalist id="listaComuniNascita">
+
+    @foreach($comuni as $comune)
+
+        <option
+            value="{{ $comune->nome_comune }}">
+
+        </option>
+
+    @endforeach
+
+    </datalist>
     </p>
+
     <p>
 
         Provincia Nascita<br>
 
         <input
         type="text"
+        id="provincia_nascita"
         name="provincia_nascita"
         value="{{ $associato->provincia_nascita }}">
     </p>
     
+    <p>
+    Nazione Nascita<br>
+    <input
+        type="text"
+        id="nazione_nascita"
+        name="nazione_nascita"
+        value="{{ $associato->nazione_nascita }}">
+    </p>
+
     <p>
          Codice Fiscale<br>
 
@@ -100,19 +125,40 @@
 
 <p>
     Comune Residenza<br>
-    <input type="text" name="comune_residenza" value="{{ $associato->comune_residenza }}">
+    <input
+    list="listaComuniResidenza"
+    id="comune_residenza"
+    name="comune_residenza"
+    value="{{ $associato->comune_residenza }}">
+
+<datalist id="listaComuniResidenza">
+
+    @foreach($comuni as $comune)
+
+        <option
+            value="{{ $comune->nome_comune }}">
+
+        </option>
+
+    @endforeach
+
+</datalist>
 </p>
 
 <p>
     Provincia Residenza<br>
-    <input type="text" name="provincia_residenza" value="{{ $associato->provincia_residenza }}">
+    <input type="text"
+           id="provincia_residenza"
+           name="provincia_residenza" 
+           value="{{ $associato->provincia_residenza }}">
 </p>
 
 <p>
     Nazione Residenza<br>
     <input type="text"
+           id="nazione_residenza"
            name="nazione_residenza"
-           value="Italia">
+           value="{{ $associato->nazione_residenza }}">
 </p>
     <p>
         Cellulare<br>
@@ -171,13 +217,6 @@
     <input type="text" name="cellulare_tutore" value="{{ $associato->cellulare_tutore }}">
     </p>
 
-    <p>
-    Nazione Residenza<br>
-    <input type="text"
-           name="nazione_residenza"
-           value="Italia">
-    </p>
-
     <button
         type="submit"
         class="btn-action btn-edit">
@@ -197,5 +236,67 @@
     </a>
 
 </p>
+<script>
 
+async function aggiornaComune(
+    comuneId,
+    provinciaId,
+    nazioneId
+) {
+
+    const nomeComune =
+        document.getElementById(comuneId).value;
+
+    if (!nomeComune) {
+        return;
+    }
+
+    const response =
+        await fetch(
+            '/api/comuni/' +
+            encodeURIComponent(nomeComune)
+        );
+
+    if (!response.ok) {
+        return;
+    }
+
+    const comune =
+        await response.json();
+
+    if (!comune) {
+        return;
+    }
+
+    document.getElementById(provinciaId).value =
+        comune.provincia ?? '';
+
+    document.getElementById(nazioneId).value =
+        comune.nazione ?? '';
+
+}
+
+document
+    .getElementById('comune_nascita')
+    .addEventListener(
+        'change',
+        () => aggiornaComune(
+            'comune_nascita',
+            'provincia_nascita',
+            'nazione_nascita'
+        )
+    );
+
+document
+    .getElementById('comune_residenza')
+    .addEventListener(
+        'change',
+        () => aggiornaComune(
+            'comune_residenza',
+            'provincia_residenza',
+            'nazione_residenza'
+        )
+    );
+
+</script>
 @endsection

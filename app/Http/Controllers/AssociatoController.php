@@ -18,7 +18,13 @@ class AssociatoController extends Controller
 
     public function create()
     {
-        return view('associati.create');
+        $comuni = \App\Models\Comune::orderBy('nome_comune')
+            ->get();
+
+        return view(
+            'associati.create',
+            compact('comuni')
+        );
     }
 
     public function store(Request $request)
@@ -36,7 +42,7 @@ class AssociatoController extends Controller
 
         'comune_nascita' => $request->comune_nascita,
         'provincia_nascita' => $request->provincia_nascita,
-        'nazione_nascita' => 'Italia',
+        'nazione_nascita' => $request->nazione_nascita,
 
         'codice_fiscale' => $request->codice_fiscale,
 
@@ -62,11 +68,20 @@ class AssociatoController extends Controller
 }
 
     public function edit($id)
-    {
-        $associato = Associato::findOrFail($id);
+{
+    $associato = Associato::findOrFail($id);
 
-        return view('associati.edit', compact('associato'));
-    }
+    $comuni = \App\Models\Comune::orderBy('nome_comune')
+        ->get();
+
+    return view(
+        'associati.edit',
+        compact(
+            'associato',
+            'comuni'
+        )
+    );
+}
 
     public function update(Request $request, $id)
     {
@@ -79,6 +94,7 @@ class AssociatoController extends Controller
     'data_nascita' => $request->data_nascita,
     'comune_nascita' => $request->comune_nascita,
     'provincia_nascita' => $request->provincia_nascita,
+    'nazione_nascita' => $request->nazione_nascita,
     'indirizzo_residenza' => $request->indirizzo_residenza,
     'cap_residenza' => $request->cap_residenza,
     'comune_residenza' => $request->comune_residenza,
