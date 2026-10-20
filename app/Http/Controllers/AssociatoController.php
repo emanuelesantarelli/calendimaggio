@@ -100,6 +100,7 @@ class AssociatoController extends Controller
     'comune_residenza' => $request->comune_residenza,
     'provincia_residenza' => $request->provincia_residenza,
     'nazione_residenza' => $request->nazione_residenza,
+    'codice_fiscale' => $request->codice_fiscale,
     'email' => $request->email,
     'cellulare' => $request->cellulare,
     'stato_associato' => $request->stato_associato,

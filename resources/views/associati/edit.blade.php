@@ -16,6 +16,7 @@
 
         <input
             type="text"
+            id="cognome"
             name="cognome"
             value="{{ $associato->cognome }}">
     </p>
@@ -24,6 +25,7 @@
 
         <input
             type="text"
+            id="nome"
             name="nome"
             value="{{ $associato->nome }}">
     </p>
@@ -31,7 +33,9 @@
 
         Sesso<br>
 
-        <select name="sesso">
+        <select 
+            id="sesso"
+            name="sesso">
 
         <option value="M"
             {{ $associato->sesso == 'M' ? 'selected' : '' }}>
@@ -55,6 +59,7 @@
 
         <input
             type="date"
+            id="data_nascita"
             name="data_nascita"
             value="{{ $associato->data_nascita }}">
     </p>
@@ -63,10 +68,10 @@
         Comune Nascita<br>
 
         <input
-    list="listaComuniNascita"
-    id="comune_nascita"
-    name="comune_nascita"
-    value="{{ $associato->comune_nascita }}">
+            list="listaComuniNascita"
+            id="comune_nascita"
+            name="comune_nascita"
+            value="{{ $associato->comune_nascita }}">
 
     <datalist id="listaComuniNascita">
 
@@ -80,6 +85,10 @@
     @endforeach
 
     </datalist>
+
+        <input
+            type="hidden"
+            id="codice_catastale_nascita">
     </p>
 
     <p>
@@ -87,10 +96,10 @@
         Provincia Nascita<br>
 
         <input
-        type="text"
-        id="provincia_nascita"
-        name="provincia_nascita"
-        value="{{ $associato->provincia_nascita }}">
+            type="text"
+            id="provincia_nascita"
+            name="provincia_nascita"
+            value="{{ $associato->provincia_nascita }}">
     </p>
     
     <p>
@@ -107,6 +116,7 @@
 
         <input
             type="text"
+            id="codice_fiscale"
             name="codice_fiscale"
             value="{{ $associato->codice_fiscale }}">
 
@@ -269,10 +279,24 @@ async function aggiornaComune(
     }
 
     document.getElementById(provinciaId).value =
-        comune.provincia ?? '';
+    comune.provincia ?? '';
 
     document.getElementById(nazioneId).value =
-        comune.nazione ?? '';
+    comune.nazione ?? '';
+
+    const catastale =
+    document.getElementById(
+        'codice_catastale_nascita'
+    );
+
+    if (catastale && comuneId === 'comune_nascita') {
+
+    catastale.value =
+        comune.codice_catastale ?? '';
+
+    generaCodiceFiscale();
+
+}
 
 }
 
@@ -298,5 +322,75 @@ document
         )
     );
 
+    async function generaCodiceFiscale() {
+
+    const cognome =
+        document.getElementById('cognome').value;
+
+    const nome =
+        document.getElementById('nome').value;
+
+    const sesso =
+        document.getElementById('sesso').value;
+
+    const data =
+        document.getElementById('data_nascita').value;
+
+    const catastale =
+        document.getElementById(
+            'codice_catastale_nascita'
+        ).value;
+
+    if (
+        !cognome ||
+        !nome ||
+        !sesso ||
+        !data ||
+        !catastale
+    ) {
+        return;
+    }
+
+    const response =
+        await fetch(
+            '/api/codice-fiscale?' +
+            new URLSearchParams({
+                cognome: cognome,
+                nome: nome,
+                sesso: sesso,
+                data_nascita: data,
+                codice_catastale: catastale
+            })
+        );
+
+    if (!response.ok) {
+        return;
+    }
+
+    const risultato =
+        await response.json();
+
+    document.getElementById(
+        'codice_fiscale'
+    ).value =
+        risultato.codice_fiscale;
+
+}
+
+document
+    .getElementById('cognome')
+    .addEventListener('blur', generaCodiceFiscale);
+
+document
+    .getElementById('nome')
+    .addEventListener('blur', generaCodiceFiscale);
+
+document
+    .getElementById('sesso')
+    .addEventListener('change', generaCodiceFiscale);
+
+document
+    .getElementById('data_nascita')
+    .addEventListener('change', generaCodiceFiscale);
 </script>
 @endsection
