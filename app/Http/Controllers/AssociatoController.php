@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Associato;
+use App\Models\Comune;
+use App\Models\StatoEstero;
 use Illuminate\Http\Request;
 
 class AssociatoController extends Controller
@@ -18,13 +20,19 @@ class AssociatoController extends Controller
 
     public function create()
     {
-        $comuni = \App\Models\Comune::orderBy('nome_comune')
-            ->get();
+    $comuni = Comune::orderBy('nome_comune')
+        ->get();
 
-        return view(
-            'associati.create',
-            compact('comuni')
-        );
+    $statiEsteri = StatoEstero::orderBy('nome_stato')
+        ->get();
+
+    return view(
+        'associati.create',
+        compact(
+            'comuni',
+            'statiEsteri'
+        )
+    );
     }
 
     public function store(Request $request)
@@ -71,14 +79,18 @@ class AssociatoController extends Controller
 {
     $associato = Associato::findOrFail($id);
 
-    $comuni = \App\Models\Comune::orderBy('nome_comune')
+    $comuni = Comune::orderBy('nome_comune')
+        ->get();
+
+    $statiEsteri = StatoEstero::orderBy('nome_stato')
         ->get();
 
     return view(
         'associati.edit',
         compact(
             'associato',
-            'comuni'
+            'comuni',
+            'statiEsteri'
         )
     );
 }

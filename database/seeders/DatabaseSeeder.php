@@ -60,6 +60,10 @@ class ComuniSeeder extends Seeder
             ComuniSeeder::class,
             ]);
 
+            $this->call([
+            StatiEsteriSeeder::class,
+            ]);
+
         fclose($handle);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\TipologiaAssociativaController;
 use App\Http\Controllers\TesseramentoController;
 use App\Models\Comune;
 use App\Services\CodiceFiscaleService;
+use App\Models\StatoEstero;
 
 Route::get('/', [DashboardController::class, 'index']);
 
@@ -108,5 +109,13 @@ Route::get('/api/codice-fiscale', function () {
             )
 
     ]);
+
+});
+Route::get('/api/stati-esteri/{nome}', function ($nome) {
+
+    return StatoEstero::whereRaw(
+        'UPPER(nome_stato) = ?',
+        [strtoupper($nome)]
+    )->first();
 
 });

@@ -49,6 +49,50 @@
     </p>
     <p>
 
+    Nato in Italia?<br>
+
+    <select
+        id="nato_in_italia">
+
+        <option value="SI" selected>
+            SI
+        </option>
+
+        <option value="NO">
+            NO
+        </option>
+
+    </select>
+
+    </p>
+
+    <div id="blocco_nazione_nascita">
+    <p>
+    Nazione Nascita<br>
+        <input
+            list="listaNazioni"
+            id="nazione_nascita"
+            name="nazione_nascita"
+            value="Italia">
+
+    <datalist id="listaNazioni">
+
+    <option value="Italia">
+
+    @foreach($statiEsteri as $stato)
+
+        <option
+            value="{{ $stato->nome_stato }}">
+        </option>
+
+    @endforeach
+
+    </datalist>
+    </p>
+    </div>
+    <div id="blocco_comune_nascita">
+    <p>
+
     Comune Nascita<br>
 
         <input
@@ -73,6 +117,10 @@
         type="hidden"
         id="codice_catastale_nascita">
 
+    <input
+        type="hidden"
+        id="codice_catastale_estero">
+
     </p>
     <p>
 
@@ -84,15 +132,31 @@
         name="provincia_nascita">
 
     </p>
+    </div>
 
+    <div id="blocco_stato_estero">
     <p>
-    Nazione Nascita<br>
-        <input
-            type="text"
-            id="nazione_nascita"
-            name="nazione_nascita"
-            value="Italia">
+    Stato Estero Nascita<br>
+
+    <input
+        list="listaStatiEsteri"
+        id="stato_estero_nascita"
+        name="stato_estero_nascita">
+
+    <datalist id="listaStatiEsteri">
+
+        @foreach($statiEsteri as $stato)
+
+            <option
+                value="{{ $stato->nome_stato }}">
+            </option>
+
+        @endforeach
+
+    </datalist>
+
     </p>
+    </div>
 
     <p>
 
@@ -393,5 +457,142 @@ document
 document
     .getElementById('data_nascita')
     .addEventListener('change', generaCodiceFiscale);
+    
+async function aggiornaStatoEstero() {
+
+    const stato =
+        document.getElementById(
+            'stato_estero_nascita'
+        ).value;
+
+    if (!stato) {
+        return;
+    }
+
+    const response =
+        await fetch(
+            '/api/stati-esteri/' +
+            encodeURIComponent(stato)
+        );
+
+    if (!response.ok) {
+        return;
+    }
+
+    const record =
+        await response.json();
+
+    if (!record) {
+        return;
+    }
+
+    document.getElementById(
+        'codice_catastale_nascita'
+    ).value =
+        record.codice_catastale;
+
+    generaCodiceFiscale();
+}
+document
+    .getElementById('stato_estero_nascita')
+    .addEventListener(
+        'change',
+        aggiornaStatoEstero
+    );
+    
+    function aggiornaVisibilitaNascita() {
+
+    const nazione =
+        document.getElementById(
+            'nazione_nascita'
+        ).value;
+
+    const blocco =
+        document.getElementById(
+            'blocco_stato_estero'
+        );
+
+    if (!blocco) {
+        return;
+    }
+
+    if (
+        nazione.toUpperCase() === 'ITALIA'
+    ) {
+
+        blocco.style.display = 'none';
+
+    } else {
+
+        blocco.style.display = 'block';
+
+    }
+
+}
+document
+    .getElementById('nazione_nascita')
+    .addEventListener(
+        'change',
+        aggiornaVisibilitaNascita
+    );
+
+aggiornaVisibilitaNascita();
+function aggiornaVisibilitaNascita() {
+
+    const valore =
+        document.getElementById(
+            'nato_in_italia'
+        ).value;
+
+    const bloccoComune =
+        document.getElementById(
+            'blocco_comune_nascita'
+        );
+
+    const bloccoEstero =
+        document.getElementById(
+            'blocco_stato_estero'
+        );
+
+    const bloccoNazione =
+        document.getElementById(
+            'blocco_nazione_nascita'
+        );
+
+    if (valore === 'SI') {
+
+        bloccoComune.style.display = 'block';
+
+        bloccoEstero.style.display = 'none';
+
+        bloccoNazione.style.display = 'none';
+
+        document.getElementById(
+            'nazione_nascita'
+        ).value = 'Italia';
+
+    }
+    else {
+
+        bloccoComune.style.display = 'none';
+
+        bloccoEstero.style.display = 'block';
+
+        bloccoNazione.style.display = 'none';
+
+    }
+
+}
+
+document
+    .getElementById(
+        'nato_in_italia'
+    )
+    .addEventListener(
+        'change',
+        aggiornaVisibilitaNascita
+    );
+
+aggiornaVisibilitaNascita();
 </script>
 @endsection
