@@ -271,6 +271,66 @@
     
     </p>
 
+    <hr>
+
+<h3>Consensi Privacy</h3>
+
+<p>
+
+    <label>
+
+        <input
+            type="checkbox"
+            name="privacy_accettata"
+            value="1">
+
+        Privacy accettata
+
+    </label>
+
+</p>
+
+<p>
+
+    <label>
+
+        <input
+            type="checkbox"
+            name="riprese_audio_video"
+            value="1">
+
+        Autorizza foto e video
+
+    </label>
+
+</p>
+
+<p>
+
+    <label>
+
+        <input
+            type="checkbox"
+            name="comunicazioni_commerciali"
+            value="1">
+
+        Autorizza comunicazioni
+
+    </label>
+
+</p>
+
+<p>
+
+    Data Consenso<br>
+
+    <input
+        type="date"
+        name="data_consenso"
+        value="{{ date('Y-m-d') }}">
+
+</p>
+
    <button
     type="submit"
     class="btn-action btn-edit">
@@ -499,7 +559,7 @@ document
         'change',
         aggiornaStatoEstero
     );
-    
+
     function aggiornaVisibilitaNascita() {
 
     const nazione =

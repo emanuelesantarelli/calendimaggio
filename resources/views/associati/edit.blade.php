@@ -287,6 +287,74 @@
     <input type="text" name="cellulare_tutore" value="{{ $associato->cellulare_tutore }}">
     </p>
 
+    <hr>
+
+<h3>Consensi Privacy</h3>
+
+<p>
+
+    <label>
+
+        <input
+            type="checkbox"
+            name="privacy_accettata"
+            value="1"
+            <input
+    type="checkbox"
+    name="privacy_accettata"
+    value="1"
+    {{ optional($associato->consensoPrivacy)->privacy_accettata ? 'checked' : '' }}>
+
+        Privacy accettata
+
+    </label>
+
+</p>
+
+<p>
+
+    <label>
+
+        <input
+            type="checkbox"
+            name="riprese_audio_video"
+            value="1"
+            {{ optional($associato->consensoPrivacy)->riprese_audio_video ? 'checked' : '' }}>
+
+        Autorizza foto e video
+
+    </label>
+
+</p>
+
+<p>
+
+    <label>
+
+        <input
+            type="checkbox"
+            name="comunicazioni_commerciali"
+            value="1"
+            {{ optional($associato->consensoPrivacy)->comunicazioni_commerciali ? 'checked' : '' }}>
+
+        Autorizza comunicazioni
+
+    </label>
+
+</p>
+
+<p>
+
+    Data Consenso<br>
+
+    <input
+        type="date"
+        name="data_consenso"
+        value="{{ date('Y-m-d') }}">
+
+</p>
+
+
     <button
         type="submit"
         class="btn-action btn-edit">

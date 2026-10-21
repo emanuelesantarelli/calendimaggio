@@ -67,6 +67,61 @@
 
 <p><strong>Stato Associato:</strong> {{ $associato->stato_associato }}</p>
 
+<hr>
+
+<h3>Consensi Privacy</h3>
+
+<p>
+    Privacy accettata:
+    <strong>
+
+        {{
+            optional($associato->consensoPrivacy)
+            ->privacy_accettata
+                ? '✅ SI' : '❌ NO'
+        }}
+
+    </strong>
+</p>
+
+<p>
+    Foto e Video:
+    <strong>
+
+        {{
+            optional($associato->consensoPrivacy)
+            ->riprese_audio_video
+                ? '✅ SI' : '❌ NO'
+        }}
+
+    </strong>
+</p>
+
+<p>
+    Comunicazioni:
+    <strong>
+
+        {{
+            optional($associato->consensoPrivacy)
+            ->comunicazioni_commerciali
+                ? '✅ SI' : '❌ NO'
+        }}
+
+    </strong>
+</p>
+
+<p>
+    Data Consenso:
+    <strong>
+
+        {{
+            optional($associato->consensoPrivacy)
+            ->data_consenso
+        }}
+
+    </strong>
+</p>
+
 <p style="margin-top:20px;">
 
     <a

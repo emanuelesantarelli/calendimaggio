@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Associato;
 use App\Models\Comune;
 use App\Models\StatoEstero;
 use Illuminate\Http\Request;
+use App\Models\ConsensoPrivacy;
 
 class AssociatoController extends Controller
 {
@@ -37,7 +39,7 @@ class AssociatoController extends Controller
 
     public function store(Request $request)
 {
-    Associato::create([
+    $associato = Associato::create([
 
         'numero_associato' => (Associato::max('numero_associato') ?? 0) + 1,
 
@@ -71,13 +73,35 @@ class AssociatoController extends Controller
         'cellulare_tutore' => $request->cellulare_tutore,
 
     ]);
+    
+        \DB::table('consensi_privacy')->insert([
+    'associato_id' => $associato->associato_id,
+
+    'privacy_accettata' =>
+        $request->has('privacy_accettata'),
+
+    'riprese_audio_video' =>
+        $request->has('riprese_audio_video'),
+
+    'comunicazioni_commerciali' =>
+        $request->has('comunicazioni_commerciali'),
+
+    'data_consenso' =>
+        $request->data_consenso,
+
+    'created_at' => now(),
+    'updated_at' => now()
+    
+    ]);
 
     return redirect('/associati');
 }
 
     public function edit($id)
 {
-    $associato = Associato::findOrFail($id);
+    $associato = Associato::with(
+        'consensoPrivacy'
+    )->findOrFail($id);
 
     $comuni = Comune::orderBy('nome_comune')
         ->get();
@@ -120,11 +144,32 @@ class AssociatoController extends Controller
     'cognome_tutore' => $request->cognome_tutore,
     'cellulare_tutore' => $request->cellulare_tutore,
 ]);
+    ConsensoPrivacy::updateOrCreate(
 
+    [
+        'associato_id' => $associato->associato_id
+    ],
+
+    [
+        'privacy_accettata' =>
+            $request->has('privacy_accettata'),
+
+        'riprese_audio_video' =>
+            $request->has('riprese_audio_video'),
+
+        'comunicazioni_commerciali' =>
+            $request->has(
+                'comunicazioni_commerciali'
+            ),
+
+        'data_consenso' =>
+            $request->data_consenso
+
+    ]);
         return redirect('/associati');
     }
 
-    public function destroy($id)
+        public function destroy($id)
     {
         $associato = Associato::findOrFail($id);
 
@@ -135,7 +180,9 @@ class AssociatoController extends Controller
 
 public function show($id)
 {
-    $associato = Associato::findOrFail($id);
+    $associato = Associato::with(
+        'consensoPrivacy'
+    )->findOrFail($id);
 
     return view(
         'associati.show',
