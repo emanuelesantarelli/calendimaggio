@@ -8,6 +8,9 @@ use App\Models\Comune;
 use App\Models\StatoEstero;
 use Illuminate\Http\Request;
 use App\Models\ConsensoPrivacy;
+use PhpOffice\PhpWord\TemplateProcessor;
+use Illuminate\Support\Facades\File;
+
 
 class AssociatoController extends Controller
 {
@@ -188,5 +191,64 @@ public function show($id)
         'associati.show',
         compact('associato')
     );
+}
+public function generaModulo($id)
+{
+    try {
+
+        $associato = Associato::with(
+            'consensoPrivacy'
+        )->findOrFail($id);
+
+        putenv('TMP=C:\temp_mpds');
+        putenv('TEMP=C:\temp_mpds');
+
+        $template = new TemplateProcessor(
+            storage_path(
+                'app/templates/Modulo_Adesione_MPDS.docx'
+            )
+        );
+
+        $template->setValue(
+            'NOME',
+            $associato->nome
+        );
+
+        $template->setValue(
+            'COGNOME',
+            $associato->cognome
+        );
+
+        $template->setValue(
+            'CODICE_FISCALE',
+            $associato->codice_fiscale
+        );
+
+        $fileName =
+            'Modulo_' .
+            $associato->cognome .
+            '_' .
+            $associato->nome .
+            '.docx';
+
+        $outputPath =
+            'C:\\temp_mpds\\' .
+            $fileName;
+
+        $template->saveAs(
+            $outputPath
+        );
+
+        return response()->download(
+            $outputPath
+        );
+
+    } catch (\Throwable $e) {
+
+        return response()->json([
+            'errore' => $e->getMessage()
+        ]);
+
+    }
 }
 }

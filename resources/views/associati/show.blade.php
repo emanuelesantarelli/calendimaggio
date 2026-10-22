@@ -140,6 +140,13 @@
 
     </a>
 
+    <a
+    href="/associati/{{ $associato->associato_id }}/modulo"
+    class="btn-action btn-edit">
+
+    📄 Genera Modulo Adesione
+
+</a>
 </p>
 
 @endsection
