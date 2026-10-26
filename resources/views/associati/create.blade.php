@@ -550,6 +550,11 @@ async function aggiornaStatoEstero() {
         'codice_catastale_nascita'
     ).value =
         record.codice_catastale;
+    
+    document.getElementById(
+    'nazione_nascita'
+).value =
+    stato;
 
     generaCodiceFiscale();
 }

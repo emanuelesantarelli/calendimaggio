@@ -68,7 +68,8 @@
 
     Nato in Italia?<br>
 
-    <select id="nato_in_italia">
+    <select id="nato_in_italia"
+            name="nato_in_italia">
 
         <option value="SI">
             SI
@@ -86,7 +87,7 @@
         type="hidden"
         id="nazione_nascita"
         name="nazione_nascita"
-        value="Italia">
+        value="{{ $associato->nazione_nascita }}">
 
     <datalist id="listaNazioni">
 
@@ -154,7 +155,8 @@
     <input
         list="listaStatiEsteri"
         id="stato_estero_nascita"
-        name="stato_estero_nascita">
+        name="stato_estero_nascita"
+        value="{{ $associato->nazione_nascita != 'Italia' ? $associato->nazione_nascita : '' }}">
 
     <datalist id="listaStatiEsteri">
 
@@ -553,6 +555,11 @@ async function aggiornaStatoEstero() {
         'codice_catastale_nascita'
     ).value =
         record.codice_catastale;
+    
+    document.getElementById(
+    'nazione_nascita'
+).value =
+    stato;
 
     generaCodiceFiscale();
 }
@@ -565,58 +572,17 @@ document
 
 function aggiornaVisibilitaNascita() {
 
-    const nazione =
-        document.getElementById(
-            'nazione_nascita'
-        ).value;
-
-    const blocco =
-        document.getElementById(
-            'blocco_stato_estero'
-        );
-
-    if (!blocco) {
-        return;
-    }
-
-    if (
-        nazione.toUpperCase() === 'ITALIA'
-    ) {
-
-        blocco.style.display = 'none';
-
-    } else {
-
-        blocco.style.display = 'block';
-
-    }
-
-}
-document
-    .getElementById('nazione_nascita')
-    .addEventListener(
-        'change',
-        aggiornaVisibilitaNascita
-    );
-
-aggiornaVisibilitaNascita();
-
-function aggiornaVisibilitaNascita() {
-
     const valore =
-
         document.getElementById(
             'nato_in_italia'
         ).value;
 
     const bloccoComune =
-
         document.getElementById(
             'blocco_comune_nascita'
         );
 
     const bloccoEstero =
-
         document.getElementById(
             'blocco_stato_estero'
         );
@@ -629,13 +595,7 @@ function aggiornaVisibilitaNascita() {
         bloccoEstero.style.display =
             'none';
 
-        document.getElementById(
-            'nazione_nascita'
-        ).value =
-            'Italia';
-
-    }
-    else {
+    } else {
 
         bloccoComune.style.display =
             'none';
@@ -646,25 +606,19 @@ function aggiornaVisibilitaNascita() {
     }
 
 }
-if (
+const nazioneSalvata =
     document.getElementById(
         'nazione_nascita'
-    ).value.toUpperCase() === 'ITALIA'
-) {
+    ).value;
 
-    document.getElementById(
-        'nato_in_italia'
-    ).value = 'SI';
+document.getElementById(
+    'nato_in_italia'
+).value =
+    nazioneSalvata.toUpperCase() === 'ITALIA'
+        ? 'SI'
+        : 'NO';
 
-}
-else {
-
-    document.getElementById(
-        'nato_in_italia'
-    ).value = 'NO';
-
-}
-document
+        document
     .getElementById(
         'nato_in_italia'
     )

@@ -209,6 +209,30 @@ public function generaModulo($id)
             )
         );
 
+        $luogoNascita = '';
+
+$provinciaNascita = '';
+
+if (
+    strtoupper($associato->nazione_nascita) === 'ITALIA'
+) {
+
+    $luogoNascita =
+        $associato->comune_nascita;
+
+    $provinciaNascita =
+        $associato->provincia_nascita;
+
+} else {
+
+    $luogoNascita =
+        $associato->nazione_nascita;
+
+    $provinciaNascita =
+        'EE';
+
+}
+
         $template->setValue(
             'NOME',
             $associato->nome
@@ -222,6 +246,125 @@ public function generaModulo($id)
         $template->setValue(
             'CODICE_FISCALE',
             $associato->codice_fiscale
+        );
+
+        $template->setValue(
+            'DATA_ADESIONE',
+            $associato->created_at->format('d/m/Y')
+        );
+
+        $template->setValue(
+            'DATA_SCADENZA',
+            '31/12/' . now()->format('Y')
+        );
+
+        $template->setValue(
+            'NUMERO_ASSOCIATO',
+            $associato->numero_associato
+        );
+
+        $template->setValue(
+            'DATA_NASCITA',
+            \Carbon\Carbon::parse(
+            $associato->data_nascita
+            )->format('d/m/Y')
+        );
+
+        $template->setValue(
+    'COMUNE_NASCITA',
+    $luogoNascita
+);
+
+$template->setValue(
+    'PROVINCIA_NASCITA',
+    $provinciaNascita
+);
+
+        $template->setValue(
+            'INDIRIZZO',
+            $associato->indirizzo_residenza
+        );
+
+        $template->setValue(
+            'CAP',
+            $associato->cap_residenza
+        );
+
+        $template->setValue(
+            'COMUNE_RESIDENZA',
+            $associato->comune_residenza
+        );
+
+        $template->setValue(
+            'PROVINCIA_RESIDENZA',
+            $associato->provincia_residenza
+        );
+
+        $template->setValue(
+            'EMAIL',
+            $associato->email
+        );
+
+        $template->setValue(
+            'CELLULARE',
+            $associato->cellulare
+        );
+
+        $template->setValue(
+            'NOME_TUTORE',
+            $associato->nome_tutore
+        );
+
+        $template->setValue(
+            'COGNOME_TUTORE',
+            $associato->cognome_tutore
+        );
+
+        $template->setValue(
+            'CELLULARE_TUTORE',
+            $associato->cellulare_tutore
+        );
+
+        $template->setValue(
+            'PRIVACY_SI',
+            optional(
+            $associato->consensoPrivacy
+            )->privacy_accettata ? 'X' : ''
+        );
+
+        $template->setValue(
+            'PRIVACY_NO',
+            optional(
+            $associato->consensoPrivacy
+            )->privacy_accettata ? '' : 'X'
+        );
+        
+        $template->setValue(
+            'VIDEO_SI',
+            optional(
+            $associato->consensoPrivacy
+            )->riprese_audio_video ? 'X' : ''
+        );
+
+        $template->setValue(
+            'VIDEO_NO',
+            optional(
+            $associato->consensoPrivacy
+            )->riprese_audio_video ? '' : 'X'
+        );
+
+        $template->setValue(
+            'COMUNICAZIONI_SI',
+            optional(
+            $associato->consensoPrivacy
+            )->comunicazioni_commerciali ? 'X' : ''
+        );
+
+        $template->setValue(
+            'COMUNICAZIONI_NO',
+            optional(
+            $associato->consensoPrivacy
+            )->comunicazioni_commerciali ? '' : 'X'
         );
 
         $fileName =

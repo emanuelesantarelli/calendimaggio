@@ -23,9 +23,23 @@
 
 <p><strong>Data Nascita:</strong> {{ $associato->data_nascita }}</p>
 
-<p><strong>Comune Nascita:</strong> {{ $associato->comune_nascita }}</p>
+<p>
 
-<p><strong>Provincia Nascita:</strong> {{ $associato->provincia_nascita }}</p>
+    <strong>Luogo Nascita:</strong>
+
+    @if(strtoupper($associato->nazione_nascita) == 'ITALIA')
+
+        {{ $associato->comune_nascita }}
+        ({{ $associato->provincia_nascita }})
+
+    @else
+
+        {{ $associato->nazione_nascita }}
+        (EE)
+
+    @endif
+
+</p>
 
 <p><strong>Codice Fiscale:</strong> {{ $associato->codice_fiscale }}</p>
 
