@@ -14,6 +14,11 @@ class TipologiaAssociativa extends Model
         'codice',
         'descrizione',
         'quota_proposta',
-        'attiva'
+        'attiva',
+    ];
+
+    protected $casts = [
+        'attiva' => 'boolean',
+        'quota_proposta' => 'decimal:2',
     ];
 }
