@@ -27,36 +27,6 @@ Route::get(
 );
 
 Route::get(
-    '/tipologie-associative',
-    [TipologiaAssociativaController::class, 'index']
-);
-
-Route::get(
-    '/tipologie-associative/create',
-    [TipologiaAssociativaController::class, 'create']
-);
-
-Route::post(
-    '/tipologie-associative',
-    [TipologiaAssociativaController::class, 'store']
-);
-
-Route::get(
-    '/tipologie-associative/{id}/edit',
-    [TipologiaAssociativaController::class, 'edit']
-);
-
-Route::put(
-    '/tipologie-associative/{id}',
-    [TipologiaAssociativaController::class, 'update']
-);
-
-Route::delete(
-    '/tipologie-associative/{id}',
-    [TipologiaAssociativaController::class, 'destroy']
-);
-
-Route::get(
     '/tesseramenti',
     [TesseramentoController::class, 'index']
 );
@@ -122,4 +92,8 @@ Route::get('/api/stati-esteri/{nome}', function ($nome) {
 Route::get(
     '/associati/{id}/modulo',
     [AssociatoController::class, 'generaModulo']
+);
+Route::resource(
+    'tipologie-associative',
+    TipologiaAssociativaController::class
 );

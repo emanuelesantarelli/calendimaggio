@@ -4,17 +4,6 @@
 
 <h1>Tesseramenti</h1>
 
-<p>
-
-    <a href="/tesseramenti/create"
-        class="btn-action btn-edit">
-
-        🔄 Rinnovo Tesseramento
-
-    </a>
-
-</p>
-
 <table>
 
     <tr>

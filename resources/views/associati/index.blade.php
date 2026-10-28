@@ -4,12 +4,6 @@
 
 <h1>Associati</h1>
 
-<p>
-    <a href="/associati/create">
-        Nuovo Associato
-    </a>
-</p>
-
 <table border="1">
     <tr>
         <th>Numero</th>

@@ -4,17 +4,6 @@
 
 <h1>Tipologie Associative</h1>
 
-<p style="margin-bottom:20px;">
-
-    <a href="/tipologie-associative/create"
-        class="btn-action btn-edit">
-
-        ➕ Nuova Tipologia
-
-    </a>
-
-</p>
-
 <table>
 
     <tr>

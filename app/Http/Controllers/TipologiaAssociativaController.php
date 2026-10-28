@@ -36,18 +36,38 @@ class TipologiaAssociativaController extends Controller
     }
 
     public function edit($id)
-    {
-        $tipologia = TipologiaAssociativa::findOrFail($id);
+{
+    $tipologia = TipologiaAssociativa::findOrFail($id);
 
-        return view(
-            'tipologie_associative.edit',
-            compact('tipologia')
-        );
-    }
+    $utilizzata = $tipologia
+        ->tesseramenti()
+        ->exists();
+
+    return view(
+        'tipologie_associative.edit',
+        compact(
+            'tipologia',
+            'utilizzata'
+        )
+    );
+}
 
     public function update(Request $request, $id)
-    {
-        $tipologia = TipologiaAssociativa::findOrFail($id);
+{
+    $tipologia = TipologiaAssociativa::findOrFail($id);
+
+    $utilizzata = $tipologia
+        ->tesseramenti()
+        ->exists();
+
+    if ($utilizzata) {
+
+        $tipologia->update([
+            'descrizione' => $request->descrizione,
+            'attiva' => $request->has('attiva')
+        ]);
+
+    } else {
 
         $tipologia->update([
             'codice' => $request->codice,
@@ -56,17 +76,33 @@ class TipologiaAssociativaController extends Controller
             'attiva' => $request->has('attiva')
         ]);
 
-        return redirect('/tipologie-associative');
     }
+
+    return redirect('/tipologie-associative');
+}
 
     public function destroy($id)
     {
-        $tipologia = TipologiaAssociativa::findOrFail($id);
+    $tipologia = TipologiaAssociativa::findOrFail($id);
 
-        $tipologia->update([
-            'attiva' => false
-        ]);
+    $inUso = $tipologia
+        ->tesseramenti()
+        ->exists();
 
-        return redirect('/tipologie-associative');
+    if ($inUso) {
+
+        return back()->with(
+            'errore',
+            'La tipologia è utilizzata da uno o più tesseramenti.'
+        );
+
     }
+
+    $tipologia->update([
+        'attiva' => false
+    ]);
+
+    return redirect('/tipologie-associative');
+    }
+
 }

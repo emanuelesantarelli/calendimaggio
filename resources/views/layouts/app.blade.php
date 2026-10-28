@@ -174,63 +174,117 @@ tr:nth-child(even) {
 
     <div class="top-menu">
 
-        <a href="#">
-            Dashboard
+        <a href="/">
+        Dashboard
         </a>
 
         <a href="/associati">
-            Associati
+        Associati
+        </a>
+
+        <a href="/tipologie-associative">
+        Tipologie Associative
+        </a>
+
+        <a href="/tesseramenti">
+        Tesseramenti
         </a>
 
         <a href="#">
-            Tipologie Associative
+        Eventi
         </a>
 
         <a href="#">
-            Tesseramenti
+        Documenti
         </a>
 
         <a href="#">
-            Eventi
+        Magazzino
         </a>
 
         <a href="#">
-            Documenti
+        Amministrazione
         </a>
-
-        <a href="#">
-            Magazzino
-        </a>
-
-        <a href="#">
-            Amministrazione
-        </a>
-
+        
     </div>
 
     <div class="page">
 
+    @php
+
+    $sezione = 'dashboard';
+
+    if (request()->is('associati*')) {
+        $sezione = 'associati';
+    }
+
+    if (request()->is('tipologie-associative*')) {
+    $sezione = 'tipologie';
+    }
+
+    if (request()->is('tesseramenti*')) {
+    $sezione = 'tesseramenti';
+    }
+
+    @endphp
+
         <div class="sidebar">
 
-            <h3>Associati</h3>
+    @if($sezione == 'associati')
 
-            <a href="/associati/create">
-                ➕ Nuovo Associato
-            </a>
+        <h3>Associati</h3>
 
-            <a href="/associati">
-                📋 Elenco Associati
-            </a>
+        <a href="/associati/create">
+            ➕ Nuovo Associato
+        </a>
 
-            <a href="#">
-                🎂 Compleanni
-            </a>
+        <a href="/associati">
+            📋 Elenco Associati
+        </a>
 
-            <a href="#">
-                📊 Statistiche
-            </a>
+        <a href="#">
+            🎂 Compleanni
+        </a>
 
-        </div>
+        <a href="#">
+            📊 Statistiche
+        </a>
+
+    @elseif($sezione == 'tipologie')
+
+        <h3>Tipologie Associative</h3>
+
+        <a href="/tipologie-associative/create">
+            ➕ Nuova Tipologia
+        </a>
+
+        <a href="/tipologie-associative">
+            📋 Elenco Tipologie
+        </a>
+
+    @elseif($sezione == 'tesseramenti')
+
+        <h3>Tesseramenti</h3>
+
+        <a href="/tesseramenti/create">
+            ➕ Nuovo Tesseramento
+        </a>
+
+        <a href="/tesseramenti">
+            📋 Elenco Tesseramenti
+        </a>
+
+    @else
+
+        <h3>Dashboard</h3>
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+    @endif
+
+</div>
 
         <div class="content">
 

@@ -21,4 +21,12 @@ class TipologiaAssociativa extends Model
         'attiva' => 'boolean',
         'quota_proposta' => 'decimal:2',
     ];
+    public function tesseramenti()
+    {
+    return $this->hasMany(
+        Tesseramento::class,
+        'tipologia_associativa_id',
+        'tipologia_associativa_id'
+    );
+    }
 }

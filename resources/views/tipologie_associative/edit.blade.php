@@ -18,7 +18,9 @@
         <input
             type="text"
             name="codice"
-            value="{{ $tipologia->codice }}">
+            value="{{ old('codice', $tipologia->codice) }}"
+            {{ $utilizzata ? 'readonly' : '' }}>
+
 
     </p>
 
@@ -38,12 +40,31 @@
         Quota Proposta (€)<br>
 
         <input
-            type="number"
-            step="0.01"
-            name="quota_proposta"
-            value="{{ $tipologia->quota_proposta }}">
+    type="number"
+    step="0.01"
+    name="quota_proposta"
+    value="{{ old('quota_proposta', $tipologia->quota_proposta) }}"
+    {{ $utilizzata ? 'readonly' : '' }}>
 
     </p>
+
+    @if($utilizzata)
+
+<div
+    style="
+    background:#fff3cd;
+    color:#856404;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:5px;">
+
+    Questa tipologia è già utilizzata
+    in uno o più tesseramenti.
+    Codice e quota non sono modificabili.
+
+</div>
+
+@endif
 
     <p>
 
