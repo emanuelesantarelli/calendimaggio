@@ -27,28 +27,30 @@
 
     <p>
 
-        Associato<br>
+    Associato<br>
 
-        <select name="associato_id" required>
+    <input
+        type="text"
+        id="ricerca_associato"
+        placeholder="Cerca per nome, cognome o numero associato"
+        autocomplete="off">
 
-            <option value="">
-                -- Seleziona Associato --
-            </option>
+</p>
 
-            @foreach($associati as $associato)
+<div
+    id="risultati_associato"
+    style="
+        background:white;
+        border:1px solid #ccc;
+        display:none;
+        max-height:200px;
+        overflow-y:auto;">
+</div>
 
-            <option value="{{ $associato->associato_id }}">
-
-                {{ $associato->cognome }}
-                {{ $associato->nome }}
-
-            </option>
-
-            @endforeach
-
-        </select>
-
-    </p>
+<input
+    type="hidden"
+    name="associato_id"
+    id="associato_id">
 
     <p>
 
@@ -56,7 +58,8 @@
 
         <select
             name="tipologia_associativa_id"
-             id="tipologia_associativa_id">
+             id="tipologia_associativa_id"
+             readonly>
 
             <option value="">
                 -- Seleziona Tipologia --
@@ -166,26 +169,177 @@
 
 </p>
 <script>
+const ricerca =
+    document.getElementById(
+        'ricerca_associato'
+    );
 
-document.addEventListener('DOMContentLoaded', function () {
+const risultati =
+    document.getElementById(
+        'risultati_associato'
+    );
 
-    const tipologia =
-        document.getElementById('tipologia_associativa_id');
+ricerca.addEventListener(
+    'keyup',
+    function () {
 
-    const quota =
-        document.getElementById('importo_quota');
+        if (this.value.length < 2) {
 
-    tipologia.addEventListener('change', function () {
+            risultati.style.display =
+                'none';
 
-        const selezionata =
-            this.options[this.selectedIndex];
+            return;
+        }
 
-        quota.value =
-            selezionata.dataset.quota || '';
+        fetch(
+            '/api/associati/search?q='
+            + encodeURIComponent(
+                this.value
+            )
+        )
+        .then(r => r.json())
+        .then(data => {
 
-    });
+            risultati.innerHTML = '';
+
+            data.forEach(a => {
+
+                const div =
+                    document.createElement(
+                        'div'
+                    );
+
+                div.style.padding =
+                    '8px';
+
+                div.style.cursor =
+                    'pointer';
+                
+                div.style.transition =
+                    'background-color 0.15s';
+                    
+                div.addEventListener('mouseover', function () {
+                this.style.backgroundColor = '#EFE7D6';
+    
+                });
+
+                div.addEventListener('mouseout', function () {
+                this.style.backgroundColor = 'white';
+                });
+
+                div.innerHTML =
+                    a.numero_associato
+                    + ' - '
+                    + a.cognome
+                    + ' '
+                    + a.nome;
+
+                div.addEventListener(
+                    'click',
+                    function () {
+
+                        ricerca.value =
+                            this.innerText;
+
+                        document
+                            .getElementById(
+                                'associato_id'
+                            )
+                            .value =
+                            a.associato_id;
+
+                        risultati.style.display =
+                            'none';
+
+                        document
+                            .getElementById(
+                                'associato_id'
+                            )
+                            .dispatchEvent(
+                                new Event(
+                                    'change'
+                                )
+                            );
+                    }
+                );
+
+                risultati.appendChild(
+                    div
+                );
+            });
+
+            risultati.style.display =
+                'block';
+
+        });
+
+    }
+);
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+        const associato =
+            document.getElementById(
+                'associato_id'
+            );
+
+        const tipologia =
+            document.getElementById(
+                'tipologia_associativa_id'
+            );
+
+        const quota =
+            document.getElementById(
+                'importo_quota'
+            );
+
+        associato.addEventListener(
+            'change',
+            function () {
+
+                if (!this.value) {
+                    return;
+                }
+
+                fetch(
+                    '/api/associati/'
+                    + this.value
+                    + '/tipologia'
+                )
+                .then(
+                    response =>
+                    response.json()
+                )
+                .then(
+                    data => {
+
+                        tipologia.value =
+                            data.tipologia_id;
+
+                        quota.value =
+                            data.quota;
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+document.addEventListener('click', function(e) {
+
+    if (
+        !ricerca.contains(e.target)
+        &&
+        !risultati.contains(e.target)
+    ) {
+        risultati.style.display = 'none';
+    }
 
 });
-
 </script>
 @endsection

@@ -97,3 +97,12 @@ Route::resource(
     'tipologie-associative',
     TipologiaAssociativaController::class
 );
+Route::get(
+    '/api/associati/{id}/tipologia',
+    [TesseramentoController::class,
+     'tipologiaAutomatica']
+);
+Route::get(
+    '/api/associati/search',
+    [TesseramentoController::class, 'searchAssociati']
+);
