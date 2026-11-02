@@ -129,8 +129,18 @@
     <strong>
 
         {{
-            optional($associato->consensoPrivacy)
-            ->data_consenso
+            optional(
+                $associato->consensoPrivacy
+            )->data_consenso
+                ? date(
+                    'd/m/Y',
+                    strtotime(
+                        $associato
+                            ->consensoPrivacy
+                            ->data_consenso
+                    )
+                )
+                : ''
         }}
 
     </strong>
@@ -159,6 +169,14 @@
     class="btn-action btn-edit">
 
     📄 Genera Modulo Adesione
+
+    </a>
+
+    <a
+    href="/tesseramenti/create?associato_id={{ $associato->associato_id }}"
+    class="btn-action btn-edit">
+
+    💳 Rinnova Tesseramento
 
 </a>
 </p>

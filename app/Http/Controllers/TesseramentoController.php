@@ -25,24 +25,35 @@ class TesseramentoController extends Controller
         );
     }
 
-    public function create()
-    {
-        $associati = Associato::orderBy('cognome')
-            ->orderBy('nome')
-            ->get();
+    public function create(Request $request)
+{
+    $associati = Associato::orderBy('cognome')
+        ->orderBy('nome')
+        ->get();
 
-        $tipologie = TipologiaAssociativa::where('attiva', true)
-            ->orderBy('descrizione')
-            ->get();
+    $tipologie = TipologiaAssociativa::where('attiva', true)
+        ->orderBy('descrizione')
+        ->get();
 
-        return view(
-            'tesseramenti.create',
-            compact(
-                'associati',
-                'tipologie'
-            )
-        );
+    $associatoPreselezionato = null;
+
+    if ($request->associato_id) {
+
+        $associatoPreselezionato =
+            Associato::find(
+                $request->associato_id
+            );
     }
+
+    return view(
+        'tesseramenti.create',
+        compact(
+            'associati',
+            'tipologie',
+            'associatoPreselezionato'
+        )
+    );
+}
 
     public function store(Request $request)
     {
@@ -93,8 +104,17 @@ class TesseramentoController extends Controller
 
         ]);
 
+        if ($request->ritorna_associato) {
+
+        return redirect(
+        '/associati/' .
+        $request->ritorna_associato
+        );
+
+        }
+
         return redirect('/tesseramenti');
-    }
+        }
 
     public function edit($id)
     {

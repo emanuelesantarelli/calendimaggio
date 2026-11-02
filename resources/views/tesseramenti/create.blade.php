@@ -25,15 +25,40 @@
 
     @csrf
 
+    @if($associatoPreselezionato)
+
+<input
+    type="hidden"
+    name="ritorna_associato"
+    value="{{ $associatoPreselezionato->associato_id }}">
+
+    @endif
+
     <p>
 
     Associato<br>
 
     <input
-        type="text"
-        id="ricerca_associato"
-        placeholder="Cerca per nome, cognome o numero associato"
-        autocomplete="off">
+    <input
+    type="text"
+    id="ricerca_associato"
+    placeholder="Cerca per nome, cognome o numero associato"
+    autocomplete="off"
+    value="{{
+        $associatoPreselezionato
+            ? $associatoPreselezionato->numero_associato
+              .' - '.
+              $associatoPreselezionato->cognome
+              .' '.
+              $associatoPreselezionato->nome
+            : ''
+    }}"
+    {{ $associatoPreselezionato ? 'readonly' : '' }}
+    style="{{
+        $associatoPreselezionato
+            ? 'background:#f3f3f3; color:#666;'
+            : ''
+    }}">
 
 </p>
 
@@ -50,7 +75,12 @@
 <input
     type="hidden"
     name="associato_id"
-    id="associato_id">
+    id="associato_id"
+    value="{{
+        $associatoPreselezionato
+            ? $associatoPreselezionato->associato_id
+            : ''
+    }}">
 
     <p>
 
@@ -179,6 +209,7 @@ const risultati =
         'risultati_associato'
     );
 
+if (!ricerca.hasAttribute('readonly')) {
 ricerca.addEventListener(
     'keyup',
     function () {
@@ -217,7 +248,7 @@ ricerca.addEventListener(
                 
                 div.style.transition =
                     'background-color 0.15s';
-                    
+
                 div.addEventListener('mouseover', function () {
                 this.style.backgroundColor = '#EFE7D6';
     
@@ -275,6 +306,7 @@ ricerca.addEventListener(
 
     }
 );
+}
 
 document.addEventListener(
     'DOMContentLoaded',
@@ -289,7 +321,6 @@ document.addEventListener(
             document.getElementById(
                 'tipologia_associativa_id'
             );
-
         const quota =
             document.getElementById(
                 'importo_quota'
@@ -326,6 +357,13 @@ document.addEventListener(
 
             }
         );
+        if (associato.value) {
+
+    associato.dispatchEvent(
+        new Event('change')
+    );
+
+}
 
     }
 );

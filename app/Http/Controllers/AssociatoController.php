@@ -233,6 +233,20 @@ if (
 
 }
 
+    $ultimoTesseramento = DB::table('tesseramenti')
+    ->join(
+        'tipologie_associative',
+        'tesseramenti.tipologia_associativa_id',
+        '=',
+        'tipologie_associative.tipologia_associativa_id'
+    )
+    ->where(
+        'tesseramenti.associato_id',
+        $associato->associato_id
+    )
+    ->orderByDesc('anno')
+    ->first();
+
         $template->setValue(
             'NOME',
             $associato->nome
@@ -365,6 +379,32 @@ $template->setValue(
             optional(
             $associato->consensoPrivacy
             )->comunicazioni_commerciali ? '' : 'X'
+        );
+
+        $template->setValue(
+            'TIPOLOGIA_ASSOCIATIVA',
+            $ultimoTesseramento
+            ? $ultimoTesseramento->descrizione
+            : ''
+        );
+
+        $template->setValue(
+            'QUOTA_ASSOCIATIVA',
+            $ultimoTesseramento
+            ? number_format(
+            $ultimoTesseramento->importo_quota,
+            2,
+            ',',
+            '.'
+        )
+        : ''
+        );
+
+        $template->setValue(
+            'ANNO_TESSERAMENTO',
+            $ultimoTesseramento
+            ? $ultimoTesseramento->anno
+            : now()->year
         );
 
         $fileName =
