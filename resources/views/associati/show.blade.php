@@ -179,6 +179,13 @@
     💳 Rinnova Tesseramento
 
 </a>
+<a
+    href="/associati/{{ $associato->associato_id }}/pdf"
+    class="btn-action btn-edit">
+
+    📑 Genera PDF
+
+</a>
 </p>
 
 @endsection

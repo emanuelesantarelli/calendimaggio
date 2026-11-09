@@ -8,6 +8,7 @@ use App\Http\Controllers\TesseramentoController;
 use App\Models\Comune;
 use App\Services\CodiceFiscaleService;
 use App\Models\StatoEstero;
+use App\Http\Controllers\ImpostazioneGeneraleController;
 
 Route::get('/', [DashboardController::class, 'index']);
 
@@ -105,4 +106,26 @@ Route::get(
 Route::get(
     '/api/associati/search',
     [TesseramentoController::class, 'searchAssociati']
+);
+Route::get(
+    '/associati/{id}/pdf',
+    [AssociatoController::class, 'generaPdf']
+);
+Route::get(
+    '/impostazioni-generali',
+    [ImpostazioneGeneraleController::class, 'edit']
+);
+
+Route::post(
+    '/impostazioni-generali',
+    [ImpostazioneGeneraleController::class, 'update']
+);
+Route::get(
+    '/impostazioni-layout',
+    [ImpostazioneGeneraleController::class, 'layout']
+);
+
+Route::post(
+    '/impostazioni-layout',
+    [ImpostazioneGeneraleController::class, 'salvaLayout']
 );

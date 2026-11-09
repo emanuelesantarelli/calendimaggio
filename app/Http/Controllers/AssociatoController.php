@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\ConsensoPrivacy;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Support\Facades\File;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class AssociatoController extends Controller
@@ -285,14 +286,14 @@ if (
         );
 
         $template->setValue(
-    'COMUNE_NASCITA',
-    $luogoNascita
-);
+            'COMUNE_NASCITA',
+            $luogoNascita
+        );
 
-$template->setValue(
-    'PROVINCIA_NASCITA',
-    $provinciaNascita
-);
+        $template->setValue(
+            'PROVINCIA_NASCITA',
+            $provinciaNascita
+        );
 
         $template->setValue(
             'INDIRIZZO',
@@ -433,5 +434,54 @@ $template->setValue(
         ]);
 
     }
+}
+public function generaPdf($id)
+{
+    $associato = Associato::with(
+        'consensoPrivacy'
+    )->findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'pdf.modulo-adesione',
+        compact('associato')
+    );
+
+    return $pdf->stream(
+        'Modulo_Adesione.pdf'
+    );
+    
+}
+private function preparaDatiModulo($associato)
+{
+    $luogoNascita = '';
+    $provinciaNascita = '';
+
+    if (
+        strtoupper(
+            $associato->nazione_nascita
+        ) === 'ITALIA'
+    ) {
+
+        $luogoNascita =
+            $associato->comune_nascita;
+
+        $provinciaNascita =
+            $associato->provincia_nascita;
+
+    } else {
+
+        $luogoNascita =
+            $associato->nazione_nascita;
+
+        $provinciaNascita = 'EE';
+    }
+
+    return [
+        'luogoNascita' =>
+            $luogoNascita,
+
+        'provinciaNascita' =>
+            $provinciaNascita
+    ];
 }
 }

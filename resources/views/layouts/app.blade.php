@@ -1,3 +1,18 @@
+@php
+
+$impostazioni =
+    \App\Models\ImpostazioneGenerale::first();
+
+$colorePrimario =
+    $impostazioni->colore_primario
+    ?? '#B10000';
+
+$coloreSecondario =
+    $impostazioni->colore_secondario
+    ?? '#7A0000';
+
+@endphp
+
 <!DOCTYPE html>
 
 <html lang="it">
@@ -9,7 +24,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Gestionale Magnifica Parte de Sotto</title>
+    <title>Gestionale {{ $impostazioni->nome_associazione }}</title>
 
     <style>
 
@@ -21,7 +36,8 @@
         }
 
         .header {
-            background-color: #B10000;
+            background-color:
+                {{ $colorePrimario }};
             color: white;
             padding: 15px 25px;
         }
@@ -36,7 +52,8 @@
         }
 
         .top-menu {
-            background-color: #7A0000;
+            background-color:
+                {{ $coloreSecondario }};
             padding: 10px;
         }
 
@@ -149,21 +166,46 @@ tr:nth-child(even) {
 
     <div style="display:flex; align-items:center;">
 
-        <img
-            src="/images/stemma-parte-sotto.png"
-            alt="Stemma Parte de Sotto"
-            style="
-                height:70px;
-                margin-right:15px;">
+       @if(
+    $impostazioni &&
+    $impostazioni->logo_path
+)
+
+    <img
+        src="{{ asset('storage/'.$impostazioni->logo_path) }}"
+        alt="Logo"
+        style="
+            height:90px;
+            margin-right:15px;">
+
+@else
+
+    <div
+        style="
+            width:70px;
+            height:90px;
+            border:2px dashed white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin-right:15px;
+            color:white;
+            font-weight:bold;">
+
+        LOGO
+
+    </div>
+
+@endif
 
         <div>
 
             <div class="header-title">
-                Magnifica Parte de Sotto
+                {{ $impostazioni->nome_associazione }}
             </div>
 
             <div class="header-subtitle">
-                Gestionale Calendimaggio di Assisi
+                Gestionale Associazione
             </div>
 
         </div>
@@ -206,6 +248,10 @@ tr:nth-child(even) {
         Amministrazione
         </a>
         
+        <a href="/impostazioni-generali">
+        Impostazioni
+        </a>
+        
     </div>
 
     <div class="page">
@@ -224,6 +270,10 @@ tr:nth-child(even) {
 
     if (request()->is('tesseramenti*')) {
     $sezione = 'tesseramenti';
+    }
+
+    if (request()->is('impostazioni*')) {
+    $sezione = 'impostazioni';
     }
 
     @endphp
@@ -273,6 +323,34 @@ tr:nth-child(even) {
         <a href="/tesseramenti">
             📋 Elenco Tesseramenti
         </a>
+
+    @elseif($sezione == 'impostazioni')
+
+    <h3>Impostazioni</h3>
+
+    <a href="/impostazioni-generali">
+        🏛 Associazione
+    </a>
+
+    <a href="/impostazioni-layout">
+    🎨 Layout
+    </a>
+
+    <a href="#">
+        📥 Import
+    </a>
+
+    <a href="#">
+        📤 Export
+    </a>
+
+    <a href="#">
+        📄 Modelli
+    </a>
+
+    <a href="#">
+        📧 Email
+    </a>
 
     @else
 
