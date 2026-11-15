@@ -11,6 +11,10 @@ class Associato extends Model
 
     protected $primaryKey = 'associato_id';
 
+    protected $casts = [
+    'data_nascita' => 'date',
+];
+
     protected $fillable = [
         'numero_associato',
         'nome',
@@ -42,4 +46,13 @@ class Associato extends Model
             'associato_id'
         );
     }
+
+    public function tesseramenti()
+{
+    return $this->hasMany(
+        Tesseramento::class,
+        'associato_id',
+        'associato_id'
+    );
+}
 }

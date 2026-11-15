@@ -23,19 +23,7 @@ class ImpostazioneGeneraleController extends Controller
         $impostazioni =
             ImpostazioneGenerale::first();
 
-        $logoPath =
-    $impostazioni->logo_path;
-
-if ($request->hasFile('logo')) {
-
-    $logoPath =
-        $request
-            ->file('logo')
-            ->store(
-                'loghi',
-                'public'
-            );
-}
+        $logoPath = $impostazioni->logo_path;
 
 if ($request->rimuovi_logo) {
 

@@ -10,6 +10,12 @@ class Tesseramento extends Model
 
     protected $primaryKey = 'tesseramento_id';
 
+    protected $casts = [
+    'data_adesione' => 'date',
+    'data_pagamento' => 'date',
+    'data_scadenza' => 'date',
+    ];
+
     protected $fillable = [
         'associato_id',
         'tipologia_associativa_id',

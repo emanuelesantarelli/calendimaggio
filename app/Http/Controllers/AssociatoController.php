@@ -11,6 +11,7 @@ use App\Models\ConsensoPrivacy;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Support\Facades\File;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ImpostazioneGenerale;
 
 
 class AssociatoController extends Controller
@@ -280,9 +281,7 @@ if (
 
         $template->setValue(
             'DATA_NASCITA',
-            \Carbon\Carbon::parse(
             $associato->data_nascita
-            )->format('d/m/Y')
         );
 
         $template->setValue(
@@ -441,15 +440,34 @@ public function generaPdf($id)
         'consensoPrivacy'
     )->findOrFail($id);
 
-    $pdf = Pdf::loadView(
-        'pdf.modulo-adesione',
-        compact('associato')
+    $tesseramento =
+        $associato
+            ->tesseramenti()
+            ->with('tipologiaAssociativa')
+            ->orderByDesc('anno')
+            ->first();
+
+    $impostazioni =
+        ImpostazioneGenerale::first();
+
+    $datiModulo =
+        $this->preparaDatiModulo(
+        $associato
     );
+
+    $pdf = Pdf::loadView(
+    'pdf.modulo-adesione',
+    compact(
+        'associato',
+        'tesseramento',
+        'impostazioni',
+        'datiModulo'
+        )
+    );  
 
     return $pdf->stream(
         'Modulo_Adesione.pdf'
     );
-    
 }
 private function preparaDatiModulo($associato)
 {
