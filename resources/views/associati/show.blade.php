@@ -165,14 +165,6 @@
     </a>
 
     <a
-    href="/associati/{{ $associato->associato_id }}/modulo"
-    class="btn-action btn-edit">
-
-    📄 Genera Modulo Adesione
-
-    </a>
-
-    <a
     href="/tesseramenti/create?associato_id={{ $associato->associato_id }}"
     class="btn-action btn-edit">
 

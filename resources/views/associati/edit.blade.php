@@ -61,7 +61,7 @@
             type="date"
             id="data_nascita"
             name="data_nascita"
-            value="{{ $associato->data_nascita }}">
+            value="{{ $associato->data_nascita?->format('Y-m-d') }}">
     </p>
 
     <p>
@@ -350,9 +350,9 @@
     Data Consenso<br>
 
     <input
-        type="date"
-        name="data_consenso"
-        value="{{ date('Y-m-d') }}">
+    type="date"
+    name="data_consenso"
+    value="{{ optional($associato->consensoPrivacy)->data_consenso?->format('Y-m-d') }}">
 
 </p>
 

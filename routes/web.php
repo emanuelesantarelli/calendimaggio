@@ -90,10 +90,6 @@ Route::get('/api/stati-esteri/{nome}', function ($nome) {
     )->first();
 
 });
-Route::get(
-    '/associati/{id}/modulo',
-    [AssociatoController::class, 'generaModulo']
-);
 Route::resource(
     'tipologie-associative',
     TipologiaAssociativaController::class

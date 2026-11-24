@@ -26,4 +26,7 @@ class ConsensoPrivacy extends Model
     public $incrementing = true;
 
     protected $keyType = 'int';
+    protected $casts = [
+    'data_consenso' => 'date',
+];
 }
